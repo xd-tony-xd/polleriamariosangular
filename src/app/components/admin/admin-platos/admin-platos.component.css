@@ -1,0 +1,11 @@
+.table-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Ajustes de Bootstrap */
+.text-primary {
+    color: #007bff !important;
+}

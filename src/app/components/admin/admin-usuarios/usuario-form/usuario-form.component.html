@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar Usuario' : 'Crear Nuevo Usuario' }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre Completo</mat-label>
+      <input matInput formControlName="nombre" required>
+      <mat-icon matPrefix>person</mat-icon>
+      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('required')">El Nombre es **obligatorio**.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" required>
+      <mat-icon matPrefix>email</mat-icon>
+      <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">El Email es **obligatorio**.</mat-error>
+      <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">Debe ser un formato de Email válido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ isEditMode ? 'Contraseña (Dejar vacío para no cambiar)' : 'Contraseña' }}</mat-label>
+      <input matInput formControlName="password" type="password" [required]="!isEditMode">
+      <mat-icon matPrefix>lock</mat-icon>
+      <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">La Contraseña es **obligatoria**.</mat-error>
+      <mat-error *ngIf="usuarioForm.get('password')?.hasError('minlength')">Mínimo 6 caracteres.</mat-error>
+    </mat-form-field>
+    
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-col-70">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="idRol" required>
+          <mat-option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="usuarioForm.get('idRol')?.hasError('required')">El Rol es **obligatorio**.</mat-error>
+      </mat-form-field>
+
+      <div class="form-col-30 status-toggle">
+          <mat-checkbox formControlName="activo" color="primary">
+              Usuario **Activo**
+          </mat-checkbox>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" type="button" [disabled]="isSubmitting">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="usuarioForm.invalid || isSubmitting" (click)="onSubmit()">
+    <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+    {{ isEditMode ? 'Guardar Cambios' : 'Crear Usuario' }}
+  </button>
+</mat-dialog-actions>

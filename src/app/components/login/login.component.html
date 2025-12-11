@@ -1,0 +1,80 @@
+
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+  <div class="w-full max-w-4xl">
+
+    <mat-card class="rounded-xl shadow-2xl overflow-hidden grid md:grid-cols-2">
+
+     
+      <div class="hidden md:block relative">
+       
+        <img src="portada.png" alt="Fondo Pollería Marios" class="absolute inset-0 w-full h-full object-cover">
+        
+        
+        <div class="absolute inset-0 bg-red-800 opacity-80 backdrop-blur-sm"></div>
+        
+        <div class="relative p-8 flex flex-col justify-center h-full text-white">
+          <img src="logo.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg bg-white p-2">
+          <h1 class="text-4xl font-extrabold text-center">Bienvenido</h1>
+          <p class="text-center mt-2 opacity-90">Administra tus platos, menús y promociones con facilidad.</p>
+        </div>
+      </div>
+
+  
+      <div class="p-8 bg-white">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-bold text-gray-800">Iniciar Sesión</h2>
+          <p class="text-gray-500 mt-1">Ingresa tus credenciales de administrador.</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="usuario@correo.com">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required')">El email es requerido</mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Email inválido</mat-error>
+          </mat-form-field>
+
+       
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Contraseña</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'"
+                   formControlName="password" placeholder="•••••••••">
+            <button type="button" mat-icon-button matSuffix
+              (click)="hidePassword = !hidePassword" aria-label="Toggle password visibility">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">La contraseña es requerida</mat-error>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+          </mat-form-field>
+
+          
+          <button mat-raised-button color="warn" type="submit"
+                  class="w-full h-12 text-lg font-semibold shadow-md"
+                  [disabled]="loginForm.invalid || isLoading">
+            <div class="flex items-center justify-center gap-3">
+              <mat-spinner *ngIf="isLoading" diameter="22"></mat-spinner>
+              <span *ngIf="!isLoading">Ingresar</span>
+            </div>
+          </button>
+        </form>
+
+     
+        <div class="mt-6 text-center">
+            <button mat-flat-button color="primary" (click)="goToHome()" class="w-full">
+              <mat-icon>home</mat-icon> Volver a la web
+            </button>
+        </div>
+        
+      </div>
+    </mat-card>
+
+    <p class="text-center text-gray-500 text-sm mt-6">
+      © {{ currentYear }} Pollería Marios
+    </p>
+
+  </div>
+</div>

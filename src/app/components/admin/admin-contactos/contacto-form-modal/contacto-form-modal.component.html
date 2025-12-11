@@ -1,0 +1,40 @@
+<h2 mat-dialog-title class="text-2xl font-bold text-red-600">
+  Agregar nuevo contacto
+</h2>
+
+<form [formGroup]="contactoForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography flex flex-col gap-4">
+    
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Tu Nombre</mat-label>
+      <input matInput formControlName="nombre" required>
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="contactoForm.get('nombre')?.hasError('required')">El nombre es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Teléfono (solo números)</mat-label>
+      <input matInput formControlName="telefono" type="tel" required>
+      <mat-icon matSuffix>phone</mat-icon>
+      <mat-error *ngIf="contactoForm.get('telefono')?.hasError('required')">El teléfono es requerido.</mat-error>
+      <mat-error *ngIf="contactoForm.get('telefono')?.hasError('pattern')">Solo se permiten números.</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Mensaje o Consulta</mat-label>
+      <textarea matInput formControlName="mensaje" rows="4" required></textarea>
+      <mat-icon matSuffix>chat</mat-icon>
+      <mat-error *ngIf="contactoForm.get('mensaje')?.hasError('required')">El mensaje es requerido.</mat-error>
+    </mat-form-field>
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="mt-4">
+    <button mat-button (click)="onCancel()" type="button" class="text-gray-600">Cancelar</button>
+    <button mat-raised-button color="warn" type="submit" [disabled]="contactoForm.invalid || isSubmitting">
+        <mat-icon *ngIf="!isSubmitting">send</mat-icon>
+        <mat-spinner *ngIf="isSubmitting" diameter="20" color="primary" class="mr-2"></mat-spinner>
+      Enviar Mensaje
+    </button>
+  </mat-dialog-actions>
+</form>

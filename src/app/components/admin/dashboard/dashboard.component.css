@@ -1,0 +1,41 @@
+/* src/app/components/admin/dashboard/dashboard.component.css */
+
+/* * 1. Asegura que el contenedor principal del dashboard ocupe el espacio
+ * y tenga el fondo oscuro que deseas, forzando la legibilidad.
+ */
+:host {
+    display: block;
+    background-color: #0d1117; /* Fondo muy oscuro para el contraste (similar a gray-950) */
+    color: #ffffff; /* Asegura que cualquier texto fuera de las cards sea blanco */
+    min-height: 100vh;
+}
+
+/* * 2. Estilo para las tarjetas de Angular Material, asegurando que 
+ * mantengan su fondo oscuro y su borde/sombra
+ */
+mat-card {
+    /* Fondo oscuro para las tarjetas (gray-800 o similar) */
+    background-color: #161b22 !important; 
+    border-radius: 8px; /* Borde más suave */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Sombra más profunda */
+    transition: transform 0.3s ease-in-out;
+}
+
+mat-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* * 3. Estilo específico para los textos dentro de las tarjetas 
+ * si Tailwind no los cubre completamente.
+ */
+mat-card-title, 
+mat-card-header .mat-card-title {
+    color: #ffffff;
+}
+
+/* * 4. Estilo para el spinner de carga (si está en un fondo blanco)
+ */
+.flex {
+    /* Forzar fondo oscuro para la pantalla de carga */
+    background-color: #0d1117; 
+}

@@ -1,0 +1,54 @@
+.min-vh-50 {
+  min-height: 50vh;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #dc3545 0%, #e35d6a 100%);
+}
+
+.hero-image {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border: 5px solid #fff;
+}
+
+.menu-card {
+  transition: transform 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+}
+
+.shadow-hover {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.shadow-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+}
+
+.promo-header {
+  border-radius: 8px 8px 0 0;
+}
+
+.plato-image {
+  border-radius: 8px 8px 0 0;
+}
+/* home.component.css */
+.home-logo {
+  width: 60px;  /* Ajusta el ancho para que sea pequeño */
+  height: auto; /* Mantiene la proporción original de la imagen */
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section .display-4 {
+    font-size: 2rem;
+  }
+  
+  .menu-card {
+    margin-bottom: 1rem;
+  }
+}

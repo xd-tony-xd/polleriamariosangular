@@ -1,0 +1,19 @@
+.card {
+    border: none;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.current-img-preview {
+    max-width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: block;
+}
+
+.text-primary {
+    color: #007bff !important;
+}

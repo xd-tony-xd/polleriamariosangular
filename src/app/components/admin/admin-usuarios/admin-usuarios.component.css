@@ -1,0 +1,81 @@
+/* Estilos generales y layout responsivo */
+.admin-container {
+    padding: 20px;
+}
+
+.mat-card {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #3f51b5; /* Color primario de Material */
+}
+
+.actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; 
+    gap: 15px;
+}
+
+.filter-input {
+    width: 300px;
+    flex-grow: 1; 
+    min-width: 200px;
+}
+
+.table-responsive-container {
+    overflow-x: auto; 
+}
+
+table {
+    width: 100%;
+    min-width: 700px; 
+}
+
+/* Estilos de badges para roles */
+.admin-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.user-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: #4caf50; /* Verde */
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+/* Ajuste de anchos de columnas */
+.mat-column-id {
+    width: 50px;
+}
+.mat-column-activo {
+    width: 80px;
+    text-align: center;
+}
+.mat-column-acciones {
+    width: 100px;
+    text-align: center;
+}
+
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; 
+}

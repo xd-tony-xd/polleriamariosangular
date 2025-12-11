@@ -1,0 +1,138 @@
+<h2 mat-dialog-title class="text-2xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center gap-2">
+  <mat-icon color="primary">{{ isEditMode ? 'edit' : 'add' }}</mat-icon>
+  {{ isEditMode ? 'Editar Menú del Día' : 'Crear Nuevo Menú' }}
+</h2>
+
+<form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
+
+  <mat-dialog-content class="flex flex-col gap-6">
+
+    <!-- FECHA + HORARIO -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha" readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="menuForm.get('fecha')?.invalid">Fecha requerida</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Horario</mat-label>
+        <mat-select formControlName="idHorario">
+          <mat-option *ngFor="let h of horarios" [value]="h.id">
+            {{ h.turno }} ({{ h.horaInicio | slice:0:5 }} - {{ h.horaFin | slice:0:5 }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="menuForm.get('idHorario')?.invalid">Seleccione un horario</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- TITULO -->
+    <mat-form-field appearance="outline">
+      <mat-label>Título del Menú</mat-label>
+      <input matInput formControlName="titulo" placeholder="Ej: Pollo Broaster Especial">
+      <mat-icon matSuffix>title</mat-icon>
+      <mat-error *ngIf="menuForm.get('titulo')?.invalid">El título es requerido</mat-error>
+    </mat-form-field>
+
+    <!-- DESCRIPCION -->
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput rows="3" formControlName="descripcion" placeholder="Ingredientes y acompañamientos..."></textarea>
+      <mat-icon matSuffix>description</mat-icon>
+      <mat-error *ngIf="menuForm.get('descripcion')?.invalid">Descripción requerida</mat-error>
+    </mat-form-field>
+
+    <!-- PRECIO + DISPONIBLE -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Precio (S/.)</mat-label>
+        <input matInput type="number" min="0.01" formControlName="precio">
+        <mat-icon matSuffix>attach_money</mat-icon>
+        <mat-error *ngIf="menuForm.get('precio')?.errors?.['required']">El precio es requerido</mat-error>
+        <mat-error *ngIf="menuForm.get('precio')?.errors?.['min']">Debe ser un valor positivo</mat-error>
+      </mat-form-field>
+
+      <div class="flex items-center">
+        <mat-checkbox formControlName="disponible" color="primary">
+          Disponible hoy
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR IMAGEN -->
+    <div class="border p-5 rounded-xl shadow-sm bg-gray-50">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-700">
+        <mat-icon>image</mat-icon> Imagen del Menú
+      </h3>
+
+      <!-- PREVIEW -->
+      <div *ngIf="currentImageUrl" class="mb-4 relative">
+        <img 
+          [src]="currentImageUrl"
+          alt="Vista previa"
+          class="w-full max-h-60 object-contain rounded-lg border shadow-sm bg-white"
+        />
+
+        <button 
+          mat-icon-button 
+          color="warn" 
+          (click)="clearImage()" 
+          class="absolute top-2 right-2 bg-white rounded-full shadow hover:scale-110 transition"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- INPUT ARCHIVO -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Subir Imagen (archivo)</mat-label>
+        <input matInput type="text" [value]="selectedFile?.name || ''" readonly>
+
+        <input 
+          type="file" 
+          hidden 
+          #fileInputRef 
+          (change)="onFileSelected($event)" 
+          accept="image/*"
+        >
+
+        <button mat-icon-button matSuffix type="button" (click)="fileInputRef.click()">
+          <mat-icon>folder_open</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div class="text-center my-2 text-gray-500 text-sm">— O ingrese una URL —</div>
+
+      <!-- INPUT URL -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>URL de Imagen</mat-label>
+        <input 
+          matInput 
+          formControlName="imagenUrl" 
+          placeholder="https://misimagenes.com/imagen.jpg"
+          (input)="onUrlInput($event)"
+        >
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <!-- BOTONES -->
+  <mat-dialog-actions align="end" class="mt-5 border-t pt-4">
+    <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+
+    <button 
+      mat-raised-button 
+      color="primary" 
+      type="submit" 
+      [disabled]="menuForm.invalid || isSubmitting">
+      <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+      {{ isEditMode ? 'Guardar Cambios' : 'Crear Menú' }}
+    </button>
+  </mat-dialog-actions>
+
+</form>

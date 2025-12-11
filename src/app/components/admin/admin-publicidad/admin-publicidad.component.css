@@ -1,0 +1,81 @@
+/* src/app/components/admin/admin-publicidad/admin-publicidad.component.css */
+
+.admin-container {
+    padding: 20px;
+}
+
+.mat-card {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #3f51b5; /* Color primario de Material */
+}
+
+.actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Asegura que los botones se ajusten en móvil */
+    gap: 15px;
+}
+
+.filter-input {
+    width: 300px;
+    /* Ajuste en móvil */
+    flex-grow: 1; 
+    min-width: 200px;
+}
+
+/* Contenedor responsivo para la tabla */
+.table-responsive-container {
+    overflow-x: auto; /* Permite desplazamiento horizontal en pantallas pequeñas */
+}
+
+table {
+    width: 100%;
+    min-width: 700px; /* Asegura un ancho mínimo para que las columnas no colapsen */
+}
+
+/* Estilo para la imagen en la tabla */
+.publicidad-image {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+/* Ajuste de anchos de columnas para mejor visualización */
+.mat-column-imagen {
+    width: 100px;
+}
+.mat-column-activo {
+    width: 100px;
+    text-align: center;
+}
+.mat-column-acciones {
+    width: 120px;
+    text-align: center;
+}
+
+/* Ocultar columnas menos críticas en móvil */
+/* Nota: Si `displayedColumns` contiene estas columnas, Angular Material las renderizará. 
+   Para ocultarlas en la vista móvil, deberías modificar `displayedColumns` en el TS
+   o usar un CSS más agresivo (aunque el overflow-x: auto es la solución más limpia para tablas).
+   Mantendremos el overflow-x: auto para no complicar el TS. */
+
+/* Centrado del spinner de carga */
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; 
+}

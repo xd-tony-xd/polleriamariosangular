@@ -1,0 +1,51 @@
+<!-- src/app/app.component.html -->
+
+<h1>Integración de Librerías</h1>
+
+<!-- BOOTSTRAP -->
+<div class="container mt-4 bg-white dark:bg-gray-800 p-4 rounded shadow">
+  <h2>Bootstrap Test</h2>
+  <button class="btn btn-primary">Botón Primario</button>
+  <button class="btn btn-secondary ms-2">Botón Secundario</button>
+  <div class="alert alert-success mt-3" role="alert">
+    ¡Alerta de éxito!
+  </div>
+</div>
+
+<!-- ANGULAR MATERIAL (Requiere configuración adicional de Angular Material en app.module.ts) -->
+<div class="container mt-4">
+  <h2>Material Test (Requiere entorno Angular)</h2>
+  <mat-toolbar color="primary">
+    <span>Barra de herramientas</span>
+  </mat-toolbar>
+  <button mat-raised-button color="accent" class="mt-3">
+    Botón Material
+  </button>
+</div>
+
+
+
+<!-- Componente Acordeón de Preline UI -->
+<div class="max-w-3xl mx-auto p-10">
+  <h1 class="text-2xl font-bold mb-4 dark:text-white">Prueba de Acordeón de Preline UI</h1>
+  
+  <div class="hs-accordion-group">
+    <!-- Item 1 -->
+    <div class="hs-accordion active bg-white border -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-gray-800 dark:border-gray-700" id="hs-basic-with-title-accordion-1">
+      <button class="hs-accordion-toggle hs-accordion-active:text-blue-600 inline-flex items-center justify-between gap-x-3 w-full p-4 text-start text-gray-800 font-semibold hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400" aria-controls="hs-accordion-body-1">
+        ¿Funciona este acordeón?
+        <!-- ... SVGs ... (asegúrate de que los xmlns="www.w3.org" sean www.w3.org si copiaste el código original) -->
+      </button>
+      <div id="hs-accordion-body-1" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-basic-with-title-accordion-1">
+        <div class="p-4">
+          <p class="text-gray-800 dark:text-gray-200">
+            ¡Sí! Si puedes ver este texto, la instalación de Preline UI y su JavaScript ha sido exitosa.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- End Item 1 -->
+  </div>
+</div>
+
+<router-outlet></router-outlet>

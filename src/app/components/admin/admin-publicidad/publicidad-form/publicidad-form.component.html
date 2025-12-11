@@ -1,0 +1,89 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar Publicidad' : 'Crear Nueva Publicidad' }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="publicidadForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" required>
+      <mat-error *ngIf="publicidadForm.get('titulo')?.hasError('required')">El Título es **obligatorio**.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Horario de Aplicación</mat-label>
+      <mat-select formControlName="idHorario" required>
+        <mat-option *ngFor="let h of horarios" [value]="h.id">{{ h.turno }} ({{ h.horaInicio }} - {{ h.horaFin }})</mat-option>
+      </mat-select>
+      <mat-error *ngIf="publicidadForm.get('idHorario')?.hasError('required')">El Horario es **obligatorio**.</mat-error>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-col-50">
+        <mat-label>Fecha de Inicio</mat-label>
+        <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+        <mat-datepicker #pickerInicio></mat-datepicker>
+        <mat-error *ngIf="publicidadForm.get('fechaInicio')?.hasError('required')">La Fecha de Inicio es **obligatoria**.</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="form-col-50">
+        <mat-label>Fecha de Fin</mat-label>
+        <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFin></mat-datepicker>
+        <mat-error *ngIf="publicidadForm.get('fechaFin')?.hasError('required')">La Fecha de Fin es **obligatoria**.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>URL de Imagen Externa (Opcional)</mat-label>
+      <input matInput formControlName="imagenUrl" (input)="onUrlInput($event)">
+      <mat-icon matPrefix>link</mat-icon>
+      <mat-hint>Si usa URL, no necesita seleccionar un archivo.</mat-hint>
+    </mat-form-field>
+
+    <div class="image-upload-area">
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" hidden #fileInput>
+      
+      <div class="upload-controls">
+        <button mat-flat-button color="primary" type="button" (click)="fileInput.click()">
+          <mat-icon>cloud_upload</mat-icon>
+          Seleccionar Archivo
+        </button>
+        
+        <button mat-icon-button type="button" (click)="clearImage()" *ngIf="currentImageUrl">
+          <mat-icon color="warn">close</mat-icon>
+        </button>
+      </div>
+
+      <div class="upload-info">
+        <span *ngIf="selectedFile">Archivo: **{{ selectedFile.name }}**</span>
+        <span *ngIf="!selectedFile && currentImageUrl && !currentImageIsUrl">Imagen actual</span>
+        <span *ngIf="!selectedFile && currentImageUrl && currentImageIsUrl">URL: **{{ currentImageUrl | slice:0:30 }}...**</span>
+      </div>
+
+      <div class="image-preview" *ngIf="currentImageUrl">
+        <img [src]="currentImageUrl" alt="Vista previa de la imagen">
+      </div>
+    </div>
+    
+    <div class="status-toggle">
+        <mat-checkbox formControlName="activo" color="primary">
+            Publicidad **Activa**
+        </mat-checkbox>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" type="button" [disabled]="isSubmitting">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="publicidadForm.invalid || isSubmitting" (click)="onSubmit()">
+    <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+    {{ isEditMode ? 'Guardar Cambios' : 'Crear Publicidad' }}
+  </button>
+</mat-dialog-actions>

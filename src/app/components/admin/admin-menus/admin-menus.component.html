@@ -1,0 +1,100 @@
+<div class="p-6">
+  <mat-card class="shadow-lg">
+    <mat-card-header class="pb-4">
+      <mat-card-title class="text-3xl font-bold text-primary flex items-center gap-2">
+        <mat-icon class="text-3xl">restaurant_menu</mat-icon> Gestión de Menús del Día
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-3">
+        <mat-form-field appearance="outline" class="w-full md:w-1/3">
+          <mat-label>Buscar Menú</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Pollo Broaster, Cena" #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="abrirFormulario()">
+          <mat-icon>add</mat-icon> Crear Nuevo Menú
+        </button>
+      </div>
+
+      <div *ngIf="isLoading" class="flex justify-center items-center h-40">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+
+      <div class="mat-elevation-z2 overflow-x-auto" *ngIf="dataSource && !isLoading">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let menu"> {{ menu.id }} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="imagen">
+            <th mat-header-cell *matHeaderCellDef> Imagen </th>
+            <td mat-cell *matCellDef="let menu"> 
+                <img *ngIf="menu.imagen" [src]="menu.imagen" alt="Miniatura" class="w-12 h-12 object-cover rounded-md border" />
+                <mat-icon *ngIf="!menu.imagen" color="warn" title="Sin imagen">broken_image</mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+            <td mat-cell *matCellDef="let menu"> {{ menu.fecha | date: 'dd/MM/yyyy' }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="horario.turno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Horario </th>
+            <td mat-cell *matCellDef="let menu"> 
+                {{ menu.horario?.turno }} 
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="titulo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
+            <td mat-cell *matCellDef="let menu"> {{ menu.titulo }} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+            <td mat-cell *matCellDef="let menu"> S/. {{ menu.precio | number: '1.2-2' }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="disponible">
+            <th mat-header-cell *matHeaderCellDef> Disponible </th>
+            <td mat-cell *matCellDef="let menu"> 
+              <mat-icon [color]="menu.disponible ? 'accent' : 'warn'">
+                {{ menu.disponible ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let menu">
+              <button mat-icon-button color="primary" (click)="abrirFormulario(menu)" title="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="eliminarMenu(menu.id)" title="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *ngIf="dataSource.filteredData.length === 0">
+            <td class="mat-cell text-center p-4 text-gray-500" [attr.colspan]="displayedColumns.length">
+              No se encontraron menús que coincidan con el filtro.
+            </td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

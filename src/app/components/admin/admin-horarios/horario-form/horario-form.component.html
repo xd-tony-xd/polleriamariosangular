@@ -1,0 +1,65 @@
+<h2 mat-dialog-title class="text-xl font-bold text-gray-800 border-b pb-2 mb-3 flex items-center gap-2">
+  <mat-icon class="text-red-600 text-xl">
+    {{ isEditMode ? 'edit' : 'schedule' }}
+  </mat-icon>
+  {{ isEditMode ? 'Editar Horario' : 'Nuevo Horario' }}
+</h2>
+
+<form [formGroup]="horarioForm" (ngSubmit)="onSubmit()">
+
+  <mat-dialog-content class="flex flex-col gap-3">
+
+    <!-- Turno -->
+    <mat-form-field appearance="outline" class="w-full !my-0">
+      <mat-label>Turno</mat-label>
+      <mat-select formControlName="turno">
+        <mat-option *ngFor="let t of turnos" [value]="t">
+          {{ t }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="horarioForm.get('turno')?.invalid">
+        Seleccione un turno.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Hora Inicio / Hora Fin -->
+    <div class="flex gap-3">
+      
+      <mat-form-field appearance="outline" class="w-1/2 !my-0">
+        <mat-label>Hora de Inicio</mat-label>
+        <input matInput type="time" formControlName="horaInicio" placeholder="HH:MM">
+        <mat-icon matSuffix>watch_later</mat-icon>
+        <mat-error *ngIf="horarioForm.get('horaInicio')?.errors?.['required']">Requerida.</mat-error>
+        <mat-error *ngIf="horarioForm.get('horaInicio')?.errors?.['pattern']">Formato HH:MM.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-1/2 !my-0">
+        <mat-label>Hora de Fin</mat-label>
+        <input matInput type="time" formControlName="horaFin" placeholder="HH:MM">
+        <mat-icon matSuffix>watch_later</mat-icon>
+        <mat-error *ngIf="horarioForm.get('horaFin')?.errors?.['required']">Requerida.</mat-error>
+        <mat-error *ngIf="horarioForm.get('horaFin')?.errors?.['pattern']">Formato HH:MM.</mat-error>
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <!-- Buttons -->
+  <mat-dialog-actions align="end" class="mt-2 border-t pt-3">
+    
+    <button mat-button (click)="onCancel()" class="text-sm">
+      Cancelar
+    </button>
+
+    <button mat-raised-button color="warn" class="text-sm py-1"
+            [disabled]="horarioForm.invalid || isSubmitting">
+      <mat-icon class="text-base">
+        {{ isEditMode ? 'save' : 'add' }}
+      </mat-icon>
+      {{ isEditMode ? 'Guardar' : 'Crear' }}
+    </button>
+
+  </mat-dialog-actions>
+
+</form>

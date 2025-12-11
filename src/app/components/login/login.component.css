@@ -1,0 +1,38 @@
+/* src/app/components/login/login.component.css */
+
+/* SNACKBARS */
+::ng-deep .success-snackbar {
+  background-color: #059669 !important; /* Tailwind emerald-600 */
+  color: white !important;
+}
+
+::ng-deep .error-snackbar {
+  background-color: #dc2626 !important; /* Tailwind red-600 */
+  color: white !important;
+}
+
+/* Esquinas redondeadas para los inputs de Material Outline */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px !important;
+}
+
+/* Animaciones y sombras para los botones */
+button[mat-raised-button], button[mat-flat-button] {
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  border-radius: 8px; 
+}
+
+button[mat-raised-button]:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.4) !important;
+}
+
+button[mat-flat-button]:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3) !important; /* Tailwind blue-500 */
+}
+
+/* Spinner blanco para el botón warn */
+.mat-spinner circle {
+  stroke: white !important;
+}
