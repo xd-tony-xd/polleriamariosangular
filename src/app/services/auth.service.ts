@@ -1,5 +1,4 @@
 // src/app/services/auth.service.ts
-
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -8,91 +7,84 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment.development';
 
 import { LoginRequest } from '../models/dto/login-request';
-import { LoginResponse } from '../models/dto/login-response'; 
+import { LoginResponse } from '../models/dto/login-response';
 
 const USER_DATA_KEY = 'user_data';
 const TOKEN_KEY = 'token';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = `${environment.apiBaseUrl}/auth`;
-  private jwtHelper = new JwtHelperService();
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: any
-  ) { }
+  private apiUrl = `${environment.apiBaseUrl}/auth`;
+  private jwtHelper = new JwtHelperService();
 
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
 
-  /**
-   * Proceso de Login: Recibe los datos reales de la BD.
-   */
-  login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, loginRequest).pipe(
-      tap(response => {
-        // Guardar el token (string)
-        this.saveToken(response.token);
-        // Guardar los datos dinámicos (nombre, rol, email)
-        this.saveUserData(response); 
-      })
-    );
-  }
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
-  saveToken(token: string): void {
-    if (this.isBrowser()) {
-      localStorage.setItem(TOKEN_KEY, token);
-    }
-  }
+  login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, loginRequest).pipe(
+      tap(response => {
+        if (response?.token) {
+          this.saveToken(response.token);
+          this.saveUserData(response);
+        }
+      })
+    );
+  }
 
-  private saveUserData(response: LoginResponse): void {
-    if (this.isBrowser()) {
-      // Se guardan los datos recibidos de la BD:
-      const userData = {
-        nombre: response.nombre,
-        rol: response.rol,
-        email: response.email 
-      };
-      localStorage.setItem(USER_DATA_KEY, JSON.stringify(userData));
-    }
-  }
+  saveToken(token: string): void {
+    if (this.isBrowser()) {
+      localStorage.setItem(TOKEN_KEY, token);
+    }
+  }
 
-  /**
-   * Obtiene los datos del usuario (nombre, rol, email) del localStorage.
-   */
-  getUserData(): { nombre: string, rol: string, email: string } | null {
-    if (this.isBrowser()) {
-      const data = localStorage.getItem(USER_DATA_KEY);
-      return data ? JSON.parse(data) : null;
-    }
-    return null;
-  }
+  private saveUserData(response: LoginResponse): void {
+    if (this.isBrowser()) {
+      localStorage.setItem(
+        USER_DATA_KEY,
+        JSON.stringify({
+          nombre: response?.nombre ?? '',
+          rol: response?.rol ?? '',
+          email: response?.email ?? ''
+        })
+      );
+    }
+  }
 
-  getToken(): string | null {
-    if (this.isBrowser()) {
-      return localStorage.getItem(TOKEN_KEY);
-    }
-    return null;
-  }
+  getUserData(): { nombre: string; rol: string; email: string } | null {
+    if (!this.isBrowser()) return null;
+    const data = localStorage.getItem(USER_DATA_KEY);
+    return data ? JSON.parse(data) : null;
+  }
 
-  logout(): void {
-    if (this.isBrowser()) {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_DATA_KEY);
-    }
-  }
+  getToken(): string | null {
+    return this.isBrowser() ? localStorage.getItem(TOKEN_KEY) : null;
+  }
 
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return token != null && !this.jwtHelper.isTokenExpired(token);
-  }
+  logout(): void {
+    if (this.isBrowser()) {
+      localStorage.clear();
+    }
+  }
 
-  isAdmin(): boolean {
-    const userData = this.getUserData();
-    return userData?.rol === 'ADMIN'; 
-  }
+  isLoggedIn(): boolean {
+  if (!this.isBrowser()) return false;
+
+  const user = localStorage.getItem('user_data');
+  return !!user;
+}
+
+
+  isAdmin(): boolean {
+  const userData = this.getUserData();
+  return userData?.rol === 'ADMIN' || userData?.rol === 'ROLE_ADMIN';
+}
+
+
 }

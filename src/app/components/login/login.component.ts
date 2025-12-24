@@ -12,86 +12,81 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/dto/login-request';
-import { LoginResponse } from '../../models/dto/login-response'; 
+import { LoginResponse } from '../../models/dto/login-response';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  isLoading = false;
-  hidePassword = true;
-  currentYear = new Date().getFullYear();
+  loginForm: FormGroup;
+  isLoading = false;
+  hidePassword = true;
+  currentYear = new Date().getFullYear();
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], 
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
-  ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/admin']);
-    }
-  }
+  ngOnInit(): void {}
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) return;
 
-    this.isLoading = true;
+onSubmit(): void {
+  if (this.loginForm.invalid) return;
 
-    const credentials: LoginRequest = this.loginForm.value;
+  this.isLoading = true;
 
-    this.authService.login(credentials).subscribe({
-      next: (response: LoginResponse) => {
-        // Mensaje de bienvenida usando el nombre REAL de la BD
-        const userName = response.nombre.split(' ')[0];
-        this.snackBar.open(`¡Bienvenido, ${userName}!`, 'Cerrar', {
-          duration: 2500,
-          panelClass: ['success-snackbar']
-        });
+  const credentials: LoginRequest = this.loginForm.value;
 
-        this.router.navigate(['/admin']);
-      },
-      error: (err) => {
+  this.authService.login(credentials).subscribe({
+    next: (response: LoginResponse) => {
 
-        // Manejo de error mejorado para capturar el cuerpo de la respuesta del Backend
-        const errorMessage = err?.error?.message || err?.error || 'Credenciales incorrectas';
+      const userName =
+        response?.nombre?.split(' ')[0] ?? 'Usuario';
 
-        this.snackBar.open(
-          errorMessage,
-          'Cerrar',
-          { duration: 4000, panelClass: ['error-snackbar'] }
-        );
+      this.snackBar.open(`¡Bienvenido, ${userName}!`, 'Cerrar', {
+        duration: 2000
+      });
 
-        this.isLoading = false;
-      }
-    });
-  }
+      // 🔥 navegación correcta y segura
+      this.router.navigateByUrl('/admin', { replaceUrl: true });
+    },
+    error: (err) => {
+      this.snackBar.open(
+        err?.error?.message || 'Credenciales incorrectas',
+        'Cerrar',
+        { duration: 4000 }
+      );
+      this.isLoading = false;
+    }
+  });
+}
 
-  goToHome(): void {
-    this.router.navigate(['/']);
-  }
+
+  goToHome(): void {
+    this.router.navigate(['/']);
+  }
 }

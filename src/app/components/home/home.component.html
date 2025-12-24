@@ -1,333 +1,311 @@
-<div class="min-h-screen bg-gray-50 font-sans">
+<div class="container-wrapper min-h-screen bg-gray-50 font-sans">
 
+  <!-- Encabezado -->
+  <header class="sticky top-0 z-50 bg-red-600 shadow-md transition-all duration-300">
+    <div class="container mx-auto px-6 flex justify-between items-center h-20">
+      
+      <a class="flex items-center text-white font-bold text-xl md:text-2xl" href="#">
+        <img src="logo.png" alt="Logo Pollería Marios" class="w-12 h-12 object-contain mr-3" />
+        <h1 class="tracking-wide">Pollería Marios</h1>
+      </a>
 
-  <header class="sticky top-0 z-50 shadow-md bg-red-600">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a class="flex items-center text-white text-2xl font-bold" href="#">
-          
-          <img 
-          
-        src="logo.png" 
-        alt="Logo Pollería Marios" 
-        class="w-10 h-10 object-contain mr-2" 
-      />
-      <h1>Polleria marios</h1>
+      <nav class="hidden md:flex space-x-10 font-medium">
+        <a href="#inicio" class="nav-link hover:text-yellow-300 transition">Inicio</a>
+        <a href="#menu" class="nav-link hover:text-yellow-300 transition">Menú del Día</a>
+        <a href="#platos" class="nav-link hover:text-yellow-300 transition">Nuestros Platos</a>
+        <a href="#extras" class="nav-link hover:text-yellow-300 transition">Extras</a>
+        <a href="#promociones" class="nav-link hover:text-yellow-300 transition">Promociones</a>
+        <a href="#contacto" class="nav-link hover:text-yellow-300 transition">Contacto</a>
+      </nav>
 
-        </a>
-        
-        
-        <nav class="hidden md:flex space-x-8">
-          <a href="#inicio" class="text-white hover:text-yellow-400 transition duration-200">Inicio</a>
-          <a href="#menu" class="text-white hover:text-yellow-400 transition duration-200">Menú del Día</a>
-          <a href="#platos" class="text-white hover:text-yellow-400 transition duration-200">Nuestros Platos</a>
-          <a href="#promociones" class="text-white hover:text-yellow-400 transition duration-200">Promociones</a>
-          <a href="#contacto" class="text-white hover:text-yellow-400 transition duration-200">Contacto</a>
-        </nav>
-        
-        <button (click)="irALogin()" mat-raised-button color="accent" class="hidden md:block font-bold">
-          <mat-icon class="mr-1">admin_panel_settings</mat-icon>
-          Administrar
-        </button>
-        
- 
-        <button class="md:hidden text-white" aria-label="Toggle navigation">
-           <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
+      <button (click)="irALogin()" mat-raised-button color="accent" class="hidden md:flex items-center px-4 py-2 font-semibold rounded-full shadow-md bg-white text-red-600 hover:bg-yellow-500 hover:text-white transition">
+        <mat-icon class="mr-2">admin_panel_settings</mat-icon> Login
+      </button>
+
+      <button class="md:hidden text-white focus:outline-none" aria-label="Toggle menu" (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="menuOpen" class="md:hidden bg-red-600 px-4 py-4 flex flex-col space-y-3 transition-all duration-300">
+      <a href="#inicio" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Inicio</a>
+      <a href="#menu" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Menú del Día</a>
+      <a href="#platos" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Nuestros Platos</a>
+      <a href="#extras" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Extras</a>
+      <a href="#promociones" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Promociones</a>
+      <a href="#contacto" class="block px-4 py-2 rounded hover:bg-yellow-500 transition">Contacto</a>
+      <button (click)="irALogin()" mat-raised-button color="accent" class="w-full mt-2 px-4 py-2 font-semibold rounded-full shadow-md bg-white text-red-600 hover:bg-yellow-500 hover:text-white transition">
+        <mat-icon class="mr-2">admin_panel_settings</mat-icon> Administrar
+      </button>
     </div>
   </header>
 
   <main>
- 
-    <section id="inicio" class="bg-red-700 text-white py-12 md:py-20">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col lg:flex-row items-center">
-          <div class="lg:w-1/2 mb-10 lg:mb-0">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">El Auténtico Sabor del Pollo</h1>
-            <p class="text-xl mb-6 opacity-90">En Pollería Marios preparamos cada plato con ingredientes frescos y recetas tradicionales que han pasado de generación en generación. Calidad y sabor que nos distinguen.</p>
-            <div class="flex gap-4 flex-wrap">
-              <button (click)="irALogin()" mat-raised-button color="warn" class="px-6 py-3 font-bold shadow-xl">
-                <mat-icon class="mr-2">restaurant_menu</mat-icon>
-                Ver Menú Completo
-              </button>
-              <a href="#contacto" mat-stroked-button color="white" class="px-6 py-3">
-                <mat-icon class="mr-2">place</mat-icon>
-                Visítanos
-              </a>
+
+    <!-- Sección inicio -->
+    <section id="inicio" class="relative bg-red-700 text-white py-16 md:py-24 overflow-hidden">
+      <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-center lg:justify-between max-w-6xl">
+        <div class="lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0">
+          <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">El Auténtico Sabor del Pollo</h1>
+          <p class="text-xl mb-6 opacity-90 max-w-xl mx-auto lg:mx-0">
+            En Pollería Marios, preparamos cada plato con ingredientes frescos y recetas tradicionales que nos distinguen. ¡La calidad y el sabor que buscas!
+          </p>
+        </div>
+        <div class="lg:w-1/2 flex justify-center">
+          <img src="portada.png" alt="Portada Pollería Marios" class="w-full max-w-3xl rounded-3xl shadow-xl object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección promociones -->
+    <section id="promociones" class="py-16 bg-white" *ngIf="publicidades.length > 0">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-12 flex items-center justify-center text-red-600">
+          <mat-icon class="mr-2">local_offer</mat-icon> Promociones Especiales
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div *ngFor="let promo of publicidades" class="bg-white rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-300 relative">
+            <div class="h-48 overflow-hidden">
+              <img [src]="promo.imagen" [alt]="promo.titulo" class="w-full h-full object-cover" (error)="promo.imagen='assets/images/default-promo.jpg'" />
+            </div>
+            <div class="bg-red-600 text-white text-center py-3 font-semibold uppercase text-sm">
+              OFERTA ESPECIAL
+            </div>
+            <div class="p-6 text-center">
+              <h4 class="text-xl mb-3 font-bold text-red-600">{{ promo.titulo }}</h4>
+              <p class="text-gray-600 mb-4">{{ promo.descripcion }}</p>
+              <div class="bg-gray-100 rounded-lg p-3">
+                <small class="flex items-center justify-center text-green-600 font-semibold">
+                  <mat-icon class="mr-1 text-sm">schedule</mat-icon> Válido: {{ promo.fechaInicio | date:'dd/MM/yyyy' }} - {{ promo.fechaFin | date:'dd/MM/yyyy' }}
+                </small>
+              </div>
             </div>
           </div>
-          <div class="lg:w-1/2 flex justify-center">
-   <img
-    src="portada.png"
-    alt="Portada Pollería Marios"
-    class="w-full max-w-3xl rounded-2xl shadow-2xl object-cover "
-  />
+        </div>
+      </div>
+    </section>
 
+    <!-- Menú del día -->
+    <section id="menu" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 flex items-center justify-center text-red-600">
+          <mat-icon class="mr-2">today</mat-icon> Menú del Día
+        </h2>
+        <p class="text-center text-gray-500 mb-8 text-lg font-semibold">
+          Ahora es el turno de <span class="text-red-600 font-bold">{{ horarioActivo }}</span>
+        </p>
+
+        <!-- Botones centrados -->
+<div class="flex justify-center mb-8">
+  <button *ngFor="let horario of horarios" (click)="seleccionarHorario(horario.turno)"
+    mat-button
+    [ngClass]="{
+      'bg-red-600 text-white shadow-xl font-semibold': horario.turno === horarioSeleccionado,
+      'bg-white text-red-600 border border-red-600 hover:bg-red-50 font-medium': horario.turno !== horarioSeleccionado
+    }"
+    class="px-6 py-2 rounded-full transition duration-200"
+  >
+    <mat-icon class="mr-2 inline align-middle">
+      {{ horario.turno === 'Desayuno' ? 'free_breakfast' : (horario.turno === 'Almuerzo' ? 'lunch_dining' : 'local_dining') }}
+    </mat-icon>
+    {{ horario.turno }}
+  </button>
 </div>
 
+<!-- Menús para: -->
+<h3 class="text-2xl mb-6 text-center font-semibold text-gray-800">
+  Menús para: <span class="text-red-600">{{ horarioSeleccionado }}</span>
+</h3>
 
+<!-- Tarjetas centradas y con tamaño mayor -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center mx-auto max-w-7xl px-6">
+  <div *ngFor="let menu of menusDelDiaFiltrados" class="overflow-hidden rounded-lg shadow-lg hover:scale-105 transform transition duration-300 mx-auto max-w-2xl">
+    <mat-card class="border-0 w-full h-full">
+      <div class="h-80 relative"> <!-- altura aumentada -->
+        <img [src]="menu.imagen" [alt]="menu.titulo" class="w-full h-full object-cover" (error)="menu.imagen='assets/images/default-menu.jpg'" />
+        <div class="absolute top-0 left-0 bg-red-600 text-white px-4 py-2 rounded-br-lg flex items-center">
+          <mat-icon class="mr-1 text-sm">schedule</mat-icon> {{ menu.horario.turno }}
         </div>
       </div>
-    </section>
-
-    
-    <section id="promociones" class="py-16 bg-white" *ngIf="publicidades.length > 0">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-10 text-red-600">
-          <mat-icon class="inline mr-2 align-middle">local_offer</mat-icon>
-          Promociones Especiales
-        </h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div *ngFor="let promo of publicidades">
-            <mat-card class="h-full shadow-lg rounded-lg overflow-hidden transition duration-300 hover:shadow-xl hover:-translate-y-1">
-              <div class="h-48 overflow-hidden">
-                <img [src]="promo.imagen" [alt]="promo.titulo" class="w-full h-full object-cover" (error)="promo.imagen = 'assets/images/default-promo.jpg'">
-              </div>
-              <div class="bg-red-600 text-white text-center py-3">
-                <h5 class="m-0 font-bold">OFERTA ESPECIAL</h5>
-              </div>
-              <mat-card-content class="p-6 text-center">
-                <h4 class="font-bold text-red-600 mb-3 text-xl">{{ promo.titulo }}</h4>
-                <p class="text-gray-600 mb-4">{{ promo.descripcion }}</p>
-                <div class="bg-gray-100 rounded-lg p-3">
-                  <small class="text-green-600 font-semibold">
-                    <mat-icon class="inline mr-1 align-bottom" style="font-size: 14px;">schedule</mat-icon>
-                    Válido: {{ promo.fechaInicio | date:'dd/MM/yyyy' }} - {{ promo.fechaFin | date:'dd/MM/yyyy' }}
-                  </small>
-                </div>
-              </mat-card-content>
-            </mat-card>
+      <div class="p-8 text-center"> <!-- padding aumentado -->
+        <h4 class="font-bold mb-4 text-2xl text-red-600">{{ menu.titulo }}</h4>
+        <p class="text-gray-600 mb-6">{{ menu.descripcion }}</p>
+        <div class="flex justify-center items-center mb-4 gap-4">
+          <span class="text-3xl font-bold text-green-600">{{ formatearPrecio(menu.precio) }}</span>
+        </div>
+        <div class="flex justify-center">
+          <span class="px-4 py-2 rounded-full text-sm font-semibold" [ngClass]="menu.disponible ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'">
+            <mat-icon class="inline mr-1" style="font-size:16px;">{{ menu.disponible ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ menu.disponible ? 'DISPONIBLE' : 'AGOTADO' }}
+          </span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+        <ng-template #noMenus>
+          <div class="text-center py-12 text-gray-500">
+            <mat-icon class="text-6xl mb-4">restaurant_menu</mat-icon>
+            <h4 class="text-xl font-semibold">No hay menús disponibles para el turno de <span class="font-bold">{{ horarioSeleccionado }}</span></h4>
+            <p class="mt-2">Por favor, selecciona otro horario o visita nuestro menú general.</p>
           </div>
-        </div>
+        </ng-template>
       </div>
     </section>
 
-    <section id="menu" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-4 text-red-600">
-                <mat-icon class="inline mr-2 align-middle">today</mat-icon>
-                Menú del Día
-            </h2>
-            
-            <p class="text-center text-gray-500 mb-8 text-lg">
-                Ahora es el turno de **{{ horarioActivo }}**
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4 mb-10">
-                <button *ngFor="let horario of horarios"
-                        (click)="seleccionarHorario(horario.turno)"
-                        mat-button
-                        [ngClass]="{
-                            'bg-red-600 text-white shadow-xl hover:bg-red-700 font-bold': horario.turno === horarioSeleccionado,
-                            'bg-white text-red-600 border border-red-600 hover:bg-red-50 font-medium': horario.turno !== horarioSeleccionado
-                        }"
-                        class="px-6 py-2 rounded-full transition duration-200">
-                    <mat-icon class="inline mr-2 align-middle">
-                        {{ horario.turno === 'Desayuno' ? 'free_breakfast' : (horario.turno === 'Almuerzo' ? 'lunch_dining' : 'local_dining') }}
-                    </mat-icon>
-                    {{ horario.turno }}
-                </button>
-            </div>
-            <h3 class="text-2xl font-bold text-center mb-6 text-gray-800">
-                Menús para: <span class="text-red-600">{{ horarioSeleccionado }}</span>
-            </h3>
-
-            <div class="grid lg:grid-cols-2 gap-8 justify-center" *ngIf="menusDelDiaFiltrados.length > 0; else noMenus">
-                <div *ngFor="let menu of menusDelDiaFiltrados">
-                    <mat-card class="h-full border-0 shadow-lg overflow-hidden transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                        <div class="h-64 relative">
-                            <img [src]="menu.imagen" [alt]="menu.titulo" class="w-full h-full object-cover" (error)="menu.imagen = 'assets/images/default-menu.jpg'">
-                            <div class="absolute top-0 left-0 bg-red-600 text-white px-4 py-2 rounded-br-lg">
-                                <mat-icon class="inline mr-1 align-bottom">schedule</mat-icon>
-                                {{ menu.horario.turno || 'Horario' }}
-                            </div>
-                        </div>
-                        
-                        <div class="p-6">
-                            <h4 class="font-bold text-red-600 mb-3 text-2xl">{{ menu.titulo }}</h4>
-                            <p class="text-gray-600 mb-4">{{ menu.descripcion }}</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-3xl text-green-600 font-bold">{{ formatearPrecio(menu.precio) }}</span>
-                                <span class="px-4 py-2 rounded-full text-sm font-semibold" 
-                                      [ngClass]="menu.disponible ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
-                                    <mat-icon class="inline mr-1 align-bottom" style="font-size: 16px;">{{ menu.disponible ? 'check_circle' : 'cancel' }}</mat-icon>
-                                    {{ menu.disponible ? 'DISPONIBLE' : 'AGOTADO' }}
-                                </span>
-                            </div>
-                        </div>
-                    </mat-card>
-                </div>
-            </div>
-            
-            <ng-template #noMenus>
-                <div class="text-center text-gray-500 py-12">
-                    <mat-icon class="text-6xl mb-4">restaurant_menu</mat-icon>
-                    <h4 class="text-xl">No hay menús disponibles para el turno de <span class="text-red-600 font-bold">{{ horarioSeleccionado }}</span></h4>
-                    <p>Por favor, selecciona otro horario o visita nuestro menú general.</p>
-                </div>
-            </ng-template>
-        </div>
-    </section>
+    <!-- Sección Platos destacados -->
     <section id="platos" class="py-16 bg-white">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-10 text-red-600">
-          <mat-icon class="inline mr-2 align-middle">star</mat-icon>
-          Nuestros Platos Destacados
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10 flex items-center justify-center text-red-600">
+          <mat-icon class="mr-2">star</mat-icon> Nuestros Platos Destacados
         </h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" *ngIf="platos.length > 0; else noPlatos">
-          <div *ngFor="let plato of platos">
-            <mat-card class="h-full shadow-md rounded-lg overflow-hidden transition duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div *ngIf="platos.length > 0; else noPlatos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div *ngFor="let plato of platos" class="overflow-hidden rounded-lg shadow-lg hover:scale-105 transform transition duration-300">
+            <mat-card class="h-full border-0 relative">
               <div class="h-48 relative">
-                <img [src]="plato.imagen" [alt]="plato.nombre" class="w-full h-full object-cover" (error)="plato.imagen = 'assets/images/default-dish.jpg'">
-                <div class="absolute top-2 right-2 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
-                  <mat-icon class="inline mr-1 align-bottom" style="font-size: 14px;">star</mat-icon>
-                  DESTACADO
+                <img [src]="plato.imagen" [alt]="plato.nombre" class="w-full h-full object-cover" (error)="plato.imagen='assets/images/default-dish.jpg'" />
+                <div class="absolute top-2 right-2 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full flex items-center text-sm font-semibold shadow-md">
+                  <mat-icon class="mr-1" style="font-size:14px;">star</mat-icon> DESTACADO
                 </div>
               </div>
-              
               <mat-card-content class="p-6">
-                <h5 class="font-bold text-red-600 mb-2 text-lg">{{ plato.nombre }}</h5>
+                <h5 class="font-bold mb-2 text-xl text-red-600">{{ plato.nombre }}</h5>
                 <p class="text-gray-500 text-sm mb-4">{{ (plato.descripcion || '').slice(0, 100) }}...</p>
                 <div class="flex justify-between items-center mb-4">
-                  <span class="text-xl text-green-600 font-bold">{{ formatearPrecio(plato.precio) }}</span>
-                  <button (click)="hacerPedido(plato)" mat-raised-button color="warn" class="text-sm">
-                    <mat-icon style="font-size: 18px;">add_shopping_cart</mat-icon>
-                    Pedir
+                  <span class="text-xl font-bold text-green-600">{{ formatearPrecio(plato.precio) }}</span>
+                  <button (click)="hacerPedido(plato)" mat-raised-button color="warn" class="text-sm px-4 py-2 rounded-full shadow-md hover:shadow-xl transition">
+                    <mat-icon class="mr-1" style="font-size:18px;">add_shopping_cart</mat-icon> Pedir
                   </button>
                 </div>
-                <div class="flex gap-2">
-                  <mat-chip color="primary" class="text-xs">{{ plato.categoria.nombre || 'Categoría' }}</mat-chip>
-                  <mat-chip color="accent" class="text-xs">{{ plato.horario.turno || 'Horario' }}</mat-chip>
+                <div class="flex gap-2 flex-wrap">
+                  <mat-chip class="text-xs" color="primary">{{ plato.categoria.nombre || 'Categoría' }}</mat-chip>
+                  <mat-chip class="text-xs" color="accent">{{ plato.horario.turno || 'Horario' }}</mat-chip>
                 </div>
               </mat-card-content>
             </mat-card>
           </div>
         </div>
         <ng-template #noPlatos>
-          <div class="text-center text-gray-500 py-12">
+          <div class="text-center py-12 text-gray-500">
             <mat-icon class="text-6xl mb-4">fastfood</mat-icon>
-            <h4 class="text-xl">Próximamente más platos</h4>
+            <h4 class="text-xl font-semibold">Próximamente más platos</h4>
           </div>
         </ng-template>
       </div>
     </section>
 
-    <section id="horarios" class="py-16 bg-gray-900 text-white">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-10">
-          <mat-icon class="inline mr-2 text-yellow-400 align-middle">schedule</mat-icon>
-          Nuestros Horarios de Atención
+    <!-- Sección Extras -->
+    <section id="extras" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10 flex items-center justify-center text-red-600">
+          <mat-icon class="mr-2">add_circle</mat-icon> Complementos y Extras
         </h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-          <div *ngFor="let horario of horarios">
-            <div class="text-center p-6 border-2 border-yellow-400 rounded-lg bg-gray-800 shadow-lg transition duration-300 hover:bg-gray-700">
-              <mat-icon class="text-5xl text-yellow-400 mb-3">access_time</mat-icon>
-              <h5 class="font-bold text-yellow-400 text-lg">{{ horario.turno }}</h5>
-              <p class="text-base m-0">{{ horario.horaInicio }} - {{ horario.horaFin }}</p>
+        <div *ngIf="extras.length > 0; else noExtras" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div *ngFor="let extra of extras" class="bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transform transition duration-300">
+            <div class="h-32 overflow-hidden">
+              <img [src]="extra.imagen" [alt]="extra.nombre" class="w-full h-full object-cover" (error)="extra.imagen='assets/images/default-extra.jpg'" />
             </div>
+            <div class="p-4 text-center">
+              <h5 class="font-bold text-gray-800 text-lg mb-1">{{ extra.nombre }}</h5>
+              <p class="text-xs text-gray-500 mb-3 h-8 overflow-hidden">{{ extra.descripcion }}</p>
+              <div class="flex flex-col items-center">
+                <span class="text-lg font-bold text-green-600 mb-2">{{ formatearPrecio(extra.precio) }}</span>
+                <button (click)="hacerPedido(extra)" mat-stroked-button color="warn" class="text-xs px-4 py-1 rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition shadow-sm">
+                   <mat-icon class="mr-1" style="font-size:14px;">add</mat-icon> Agregar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noExtras>
+          <div class="text-center py-12 text-gray-400">
+            <mat-icon class="text-5xl mb-3">info</mat-icon>
+            <p>No hay extras disponibles en este momento.</p>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+    <!-- Horarios -->
+    <section id="horarios" class="py-16 bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-12 flex items-center justify-center">
+          <mat-icon class="mr-2 text-yellow-400">schedule</mat-icon> Nuestros Horarios de Atención
+        </h2>
+        <div class="flex justify-center gap-4 flex-wrap">
+          <div *ngFor="let horario of horarios" class="text-center p-6 border-2 border-yellow-400 rounded-lg bg-gray-800 shadow-lg hover:bg-gray-700 transition duration-300 w-full max-w-xs">
+            <mat-icon class="text-5xl mb-3">access_time</mat-icon>
+            <h5 class="font-bold text-yellow-400 text-lg">{{ horario.turno }}</h5>
+            <p class="text-base">{{ horario.horaInicio }} - {{ horario.horaFin }}</p>
           </div>
         </div>
       </div>
     </section>
 
     <section id="contacto" class="py-16 bg-white">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center mb-10 text-red-600">
-          <mat-icon class="inline mr-2 align-middle">contact_phone</mat-icon>
-          Cómo Contactarnos
-        </h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" *ngIf="contactos.length > 0; else noContactos">
-          <div *ngFor="let contacto of contactos">
-            <mat-card class="h-full shadow-sm text-center transition duration-300 hover:shadow-md">
-              <mat-card-header class="justify-center pt-4">
-                <mat-card-title class="text-blue-600 font-bold">
-                  {{ contacto.nombre }}
-                </mat-card-title>
-              </mat-card-header>
-              
-              <mat-card-content class="p-6">
-                <div class="mb-4">
-                  <mat-icon class="text-yellow-500 inline mr-1" style="font-size: 16px;">message</mat-icon>
-                  <p class="text-gray-600 text-sm m-0">{{ contacto.mensaje }}</p>
-                </div>
-                
-                <div class="mb-4">
-                  <mat-icon class="text-green-600 inline mr-1">phone</mat-icon>
-                  <p class="font-bold m-0">{{ contacto.telefono }}</p>
-                  <button (click)="llamarContacto(contacto.telefono)" mat-raised-button color="primary" class="mt-2 text-sm">
-                    <mat-icon style="font-size: 18px;">call</mat-icon>
-                    Llamar
-                  </button>
-                </div>
-                
-                <div class="text-gray-500 text-xs">
-                  <mat-icon class="inline mr-1 align-bottom" style="font-size: 14px;">calendar_today</mat-icon>
-                  {{ formatearFecha(contacto.fecha) }}
-                </div>
-              </mat-card-content>
-            </mat-card>
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-12 flex items-center justify-center text-red-600">
+      <mat-icon class="mr-2">contact_phone</mat-icon> Cómo Contactarnos
+    </h2>
+    <div *ngIf="contactos.length > 0; else noContactos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let contacto of contactos" class="h-full shadow-sm rounded-lg transition hover:shadow-md text-center p-4 bg-white">
+        <mat-card-header class="justify-center pt-4">
+          <mat-card-title class="text-blue-600 font-bold">{{ contacto.nombre }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="mb-4 flex items-center justify-center">
+            <mat-icon class="text-yellow-500 mr-1" style="font-size:16px;">message</mat-icon>
+            <p class="text-gray-600 text-sm m-0">{{ contacto.mensaje }}</p>
           </div>
-        </div>
-        
-        <ng-template #noContactos>
-          <div class="text-center text-gray-500 py-12">
-            <mat-icon class="text-6xl mb-4">contact_phone</mat-icon>
-            <h4 class="text-xl">Información de contacto próximamente</h4>
+          <div class="mb-4 flex items-center justify-center">
+            <button (click)="llamarContacto(contacto.telefono)" mat-raised-button color="primary" class="ml-3 px-4 py-2 rounded-full shadow-md hover:shadow-xl transition text-sm">
+              <mat-icon class="mr-1" style="font-size:18px;">chat</mat-icon> WhatsApp
+            </button>
           </div>
-        </ng-template>
-
-        <div class="mt-12">
-          <div class="text-center p-6 bg-red-600 text-white rounded-lg shadow-xl">
-            <h4 class="font-bold mb-3 text-xl">📍 Visítanos</h4>
-            <p class="mb-2">
-              <mat-icon class="inline mr-2">place</mat-icon>
-              Av. Principal 123, Ciudad
-            </p>
-            <p class="m-0">
-              <mat-icon class="inline mr-2">schedule</mat-icon>
-              Horario: Lunes a Domingo 7:00 AM - 11:00 PM
-            </p>
+          <div class="text-gray-500 text-xs flex items-center justify-center">
+            <mat-icon class="mr-1" style="font-size:14px;">calendar_today</mat-icon> {{ formatearFecha(contacto.fecha) }}
           </div>
-        </div>
+        </mat-card-content>
       </div>
-    </section>
+    </div>
+    <ng-template #noContactos>
+      <div class="text-center py-12">
+        <mat-icon class="text-6xl mb-4">contact_phone</mat-icon>
+        <h4 class="text-xl font-semibold">Próximamente más información de contacto</h4>
+      </div>
+    </ng-template>
+    <div class="bg-red-600 p-6 rounded-lg shadow-xl text-center text-white max-w-2xl mx-auto" style="margin-top: 2rem;">
+  <h4 class="mb-3 font-semibold text-xl flex items-center justify-center">
+    <mat-icon class="mr-2">place</mat-icon> Visítanos
+  </h4>
+  <p class="mb-2 flex items-center justify-center"><mat-icon class="mr-2">place</mat-icon> Mariscal Caceres 250, Huanta 05121</p>
+  <p class="flex items-center justify-center"><mat-icon class="mr-2">schedule</mat-icon> Horario: Lunes a Domingo 7:00 AM - 10:00 PM</p>
+</div>
+  </div>
+</section>
   </main>
+
   <section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center mb-10 text-red-600">
-        <mat-icon class="inline mr-2 align-middle">map</mat-icon>
-        Nuestra Ubicación Exacta
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-10 flex items-center justify-center text-red-600">
+        <mat-icon class="mr-2">map</mat-icon> Nuestra Ubicación
       </h2>
       <div class="flex justify-center">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15554.07865673565!2d-74.2508939!3d-12.9385643!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x910d824784a9969b%3A0xf31a0b24172bac88!2sMolina%20Uni%C3%B3n!5e0!3m2!1ses-419!2spe!4v1763674239515!5m2!1ses-419!2spe"
-                width="100%"
-                height="450"
-                style="border:0;"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                class="rounded-xl shadow-lg max-w-4xl"> </iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15554.07865673565!2d-74.2508939!3d-12.9385643!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x910d824784a9969b%3A0xf31a0b24172bac88!2sMolina%20Uni%C3%B3n!5e0!3m2!1ses-419!2spe!4v1763674239515!5m2!1ses-419!2spe" width="100%" height="450" class="rounded-xl shadow-lg max-w-4xl"></iframe>
       </div>
     </div>
   </section>
 
-
   <footer class="bg-gray-900 text-white py-6">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <p class="m-0 text-center md:text-left mb-4 md:mb-0">
-          <mat-icon class="inline mr-1 text-yellow-400 align-bottom">restaurant</mat-icon>
-          <strong>Pollería Marios</strong> - El sabor de siempre
-        </p>
-        <p class="m-0 text-center md:text-right">
-          © {{ currentYear }} Pollería Marios. Todos los derechos reservados.
-        </p>
-      </div>
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto">
+      <p class="mb-4 md:mb-0 flex items-center justify-center md:justify-start">
+        <mat-icon class="mr-1 text-yellow-400">restaurant</mat-icon>
+        <strong>Pollería Marios</strong> - El sabor de siempre
+      </p>
+      <p class="flex items-center justify-center md:justify-end">
+        © {{ currentYear }} Pollería Marios. Todos los derechos reservados.
+      </p>
     </div>
   </footer>
+
 </div>

@@ -6,15 +6,14 @@
        class="fixed inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/30 backdrop-blur-sm z-40 transition-all duration-300">
   </div>
 
-  <!-- SIDEBAR -->
+  <!-- Sidebar -->
   <aside
     [class.translate-x-0]="isSidebarOpen"
     [class.-translate-x-full]="!isSidebarOpen"
     class="fixed md:relative inset-y-0 left-0 z-50 w-72 lg:w-80 bg-gradient-to-b from-gray-900 to-gray-800 p-4 md:p-6 flex flex-col
-           transition-all duration-300 ease-out shadow-2xl md:shadow-lg border-r border-red-900/30
-           md:translate-x-0 transform-gpu">
+           transition-all duration-300 ease-out shadow-2xl md:shadow-lg border-r border-red-900/30 transform-gpu">
 
-    <!-- LOGO -->
+    <!-- Logo y título -->
     <div class="mb-8 md:mb-10 pt-2">
       <div class="flex items-center px-2">
         <div class="relative mr-4">
@@ -22,39 +21,34 @@
           <mat-icon class="relative text-4xl text-red-400 drop-shadow-lg">restaurant</mat-icon>
         </div>
         <div class="overflow-hidden">
-          <h2 class="text-xl lg:text-2xl font-bold text-white tracking-tight">Pollería</h2>
+          <h2 class="text-xl lg:text-2xl font-bold text-white tracking-tight">Pollería Marios </h2>
           <p class="text-xs lg:text-sm font-medium text-red-300/80 truncate">Panel Admin</p>
         </div>
       </div>
-
       <!-- Separador -->
       <div class="mt-6 relative">
         <div class="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
       </div>
     </div>
 
-    <!-- NAV -->
-    <nav class="flex-1 overflow-y-auto px-2 space-y-1 custom-scrollbar">
-      
+    <!-- Navegación sin líneas, con espacio debajo -->
+    <nav class="flex-1 overflow-y-auto px-2 space-y-2 custom-scrollbar">
       <!-- Dashboard -->
-      <div class="mb-4">
+      <div>
         <a routerLink="/admin"
-           routerLinkActive="bg-gradient-to-r from-red-600/90 to-red-700/90 text-white shadow-xl shadow-red-500/30 border-l-4 border-red-400"
+           routerLinkActive="bg-gradient-to-r from-red-600/90 to-red-700/90 text-white shadow-xl border-l-4 border-red-400"
            [routerLinkActiveOptions]="{exact:true}"
-           class="flex items-center p-3.5 rounded-xl hover:bg-gray-800/80 transition-all duration-200 group">
-          <mat-icon class="mr-4 text-xl text-gray-300">dashboard</mat-icon>
+           class="flex items-center p-3.5 rounded-xl hover:bg-gray-800/80 transition duration-200">
+          <mat-icon class="mr-3 text-xl text-gray-300">dashboard</mat-icon>
           <span class="font-medium tracking-wide text-gray-200">Dashboard</span>
         </a>
       </div>
 
       <!-- Gestión de Menú -->
-      <div class="space-y-1 mb-6">
+      <div>
         <div class="px-3 py-2 mb-2">
-          <div class="flex items-center">
-            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Gestión de Menú</span>
-          </div>
+          <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Gestión de Menú</span>
         </div>
-        
         <ng-container *ngFor="let item of [
           {link:'/admin/platos', icon:'restaurant_menu', name:'Platos'},
           {link:'/admin/menus', icon:'calendar_today', name:'Menús del Día'},
@@ -63,7 +57,7 @@
         ]">
           <a [routerLink]="item.link"
              routerLinkActive="bg-gradient-to-r from-red-600/90 to-red-700/90 text-white shadow-lg border-l-4 border-red-400"
-             class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition-all duration-200">
+             class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition duration-200">
             <mat-icon class="mr-3 text-lg text-gray-400">{{ item.icon }}</mat-icon>
             <span class="font-medium text-gray-300">{{ item.name }}</span>
           </a>
@@ -71,13 +65,10 @@
       </div>
 
       <!-- Configuración -->
-      <div class="space-y-1 mb-6">
+      <div>
         <div class="px-3 py-2 mb-2">
-          <div class="flex items-center">
-            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Configuración</span>
-          </div>
+          <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Configuración</span>
         </div>
-        
         <ng-container *ngFor="let item of [
           {link:'/admin/horarios', icon:'access_time', name:'Horarios'},
           {link:'/admin/publicidad', icon:'campaign', name:'Publicidad'},
@@ -85,7 +76,7 @@
         ]">
           <a [routerLink]="item.link"
              routerLinkActive="bg-gradient-to-r from-blue-600/90 to-blue-700/90 text-white shadow-lg border-l-4 border-blue-400"
-             class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition-all duration-200">
+             class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition duration-200">
             <mat-icon class="mr-3 text-lg text-gray-400">{{ item.icon }}</mat-icon>
             <span class="font-medium text-gray-300">{{ item.name }}</span>
           </a>
@@ -93,30 +84,22 @@
       </div>
 
       <!-- Administración -->
-      <div class="space-y-1">
+      <div>
         <div class="px-3 py-2 mb-2">
-          <div class="flex items-center">
-            <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Administración</span>
-          </div>
+          <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Administración</span>
         </div>
-        
         <a routerLink="/admin/usuarios"
            routerLinkActive="bg-gradient-to-r from-purple-600/90 to-purple-700/90 text-white shadow-lg border-l-4 border-purple-400"
-           class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition-all duration-200">
+           class="flex items-center p-3 rounded-xl hover:bg-gray-800/70 transition duration-200">
           <mat-icon class="mr-3 text-lg text-gray-400">people_alt</mat-icon>
           <span class="font-medium text-gray-300">Usuarios</span>
         </a>
       </div>
-
     </nav>
 
-    <!-- FOOTER SIDEBAR -->
+    <!-- Footer Sidebar -->
     <div class="mt-8 pt-6 border-t border-gray-700/50">
-      <!-- Botón Logout -->
-      <button (click)="volverHome()"
-              class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-red-700/90 to-red-800/90 
-                     hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg
-                     flex items-center justify-center font-semibold text-white">
+      <button (click)="volverHome()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-red-700/90 to-red-800/90 hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg flex items-center justify-center font-semibold text-white">
         <mat-icon class="mr-3">logout</mat-icon>
         <span>Cerrar Sesión</span>
       </button>
@@ -124,78 +107,48 @@
 
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- Main Content -->
   <main class="flex-1 flex flex-col min-h-0 overflow-hidden">
-
-    <!-- HEADER -->
-    <header class="bg-dark dark:bg-gray-800 px-5 py-4 sticky top-0 z-30 
-                   border-b border-gray-200 dark:border-gray-700 shadow-sm">
-      <div class="flex items-center justify-between h-16">
-        
-        <!-- Left Section -->
-        <div class="flex items-center space-x-4">
-          <!-- Mobile Toggle Button -->
-          <button (click)="toggleSidebar()"
-                  class="md:hidden p-2.5 rounded-xl bg-darkdark:bg-gray-800 shadow-sm
-                         hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700">
-            <mat-icon class="text-2xl text-gray-700 dark:text-gray-300">
-              {{ isSidebarOpen ? 'menu_open' : 'menu' }}
-            </mat-icon>
-          </button>
-
-          <!-- Page Title -->
-          <div class="hidden md:flex items-center">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-              Panel Administrativo
-            </h1>
-          </div>
-          
-          <!-- Mobile Title -->
-          <h1 class="md:hidden text-xl font-bold text-gray-800 dark:text-white">
-            Admin
-          </h1>
+    <!-- Header -->
+    <header class="bg-dark dark:bg-gray-800 px-5 py-2 sticky top-0 z-30 border-b border-gray-200 dark:border-gray-700 shadow-sm flex items-center justify-between">
+      <!-- Left: Toggle & Title -->
+      <div class="flex items-center space-x-4">
+        <button (click)="toggleSidebar()" class="md:hidden p-2.5 rounded-xl bg-gray-800 shadow-sm hover:shadow-md transition duration-200 border border-gray-200 dark:border-gray-700">
+          <mat-icon class="text-2xl text-gray-700 dark:text-gray-300">
+            {{ isSidebarOpen ? 'menu_open' : 'menu' }}
+          </mat-icon>
+        </button>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight hidden md:block">Panel Administrativo</h1>
+          <h1 class="text-xl font-bold text-gray-800 dark:text-white md:hidden">Admin</h1>
         </div>
-
-        <!-- Right Section -->
-        <div class="flex items-center space-x-3">
-          <!-- User Profile -->
-          <div class="relative">
-            <div class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700/80 
-                        transition-all duration-200 cursor-pointer">
-              <div class="hidden sm:block text-right">
-                <p *ngIf="userName" class="font-semibold text-gray-800 dark:text-white truncate max-w-[120px]">
-                  {{ userName }}
-                </p>
-                <p *ngIf="userRole" class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[120px]">
-                  {{ userRole }}
-                </p>
-                <p *ngIf="userEmail" class="text-xs text-red-600 dark:text-red-400 truncate max-w-[120px]">
-                  {{ userEmail }}
-                </p>
-              </div>
-              <mat-icon class="text-3xl text-red-500">account_circle</mat-icon>
-            </div>
+      </div>
+      <!-- Right: User Info -->
+      <div class="flex items-center space-x-3">
+        <div class="relative cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700/80 rounded-xl p-2 transition duration-200">
+          <div class="hidden sm:block text-right">
+            <p *ngIf="userName" class="font-semibold text-gray-800 dark:text-white truncate max-w-[120px]">{{ userName }}</p>
+            <p *ngIf="userRole" class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[120px]">{{ userRole }}</p>
+            <p *ngIf="userEmail" class="text-xs text-red-600 dark:text-red-400 truncate max-w-[120px]">{{ userEmail }}</p>
           </div>
+         
         </div>
       </div>
     </header>
 
-    <!-- MAIN CONTENT AREA -->
+    <!-- Content Area -->
     <div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-gray-50/50 dark:bg-gray-900 custom-scrollbar">
       <div class="max-w-7xl mx-auto">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 
-                    shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
           <router-outlet></router-outlet>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-dark dark:bg-gray-800">
+    <!-- Footer -->
+    <footer class="px-6 py-2 border-t border-gray-200 dark:border-gray-800 bg-dark dark:bg-gray-800">
       <div class="flex flex-col md:flex-row justify-between items-center text-sm">
-        <div class="text-gray-600 dark:text-gray-400 mb-3 md:mb-0">
-          © 2024 Pollería • Sistema Administrativo
-        </div>
+        <div class="text-gray-600 dark:text-gray-400 mb-3 md:mb-0">© 2024 Pollería • Sistema Administrativo</div>
         <div class="flex items-center space-x-4">
           <span class="flex items-center text-gray-500 dark:text-gray-500">
             <span class="w-2 h-2 bg-emerald-500 rounded-full mr-2"></span>
@@ -204,6 +157,6 @@
         </div>
       </div>
     </footer>
-
   </main>
+
 </div>

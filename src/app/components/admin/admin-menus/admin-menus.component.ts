@@ -50,34 +50,35 @@ export class AdminMenusComponent implements OnInit {
   }
 
   cargarMenus(): void {
-    this.isLoading = true;
-    this.menuDiaService.listar().subscribe({
-      next: (data) => {
-        // Aseguramos que la fecha se muestre correctamente si es una cadena
-        data.forEach(m => m.fecha = new Date(m.fecha)); 
-        
-        this.dataSource = new MatTableDataSource(data);
-        
-        // 🚨 Implementación de la función de acceso para anidar propiedades (horario.turno)
-        this.dataSource.sortingDataAccessor = (item, property) => {
-          switch (property) {
-            case 'horario.turno': return item.horario.turno;
-            case 'fecha': return item.fecha.getTime(); // Ordenar por timestamp
-            default: return (item as any)[property];
-          }
-        };
-        
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar menús:', err);
-        this.snackBar.open('Error al cargar los menús del día.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
-        this.isLoading = false;
-      }
-    });
-  }
+  this.isLoading = true;
+  this.menuDiaService.listar().subscribe({
+    next: (data) => {
+      // Ajuste de zona horaria para cada menú en la lista
+      data.forEach(m => {
+        const d = new Date(m.fecha);
+        d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+        m.fecha = d;
+      }); 
+      
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'horario.turno': return item.horario.turno;
+          case 'fecha': return item.fecha.getTime();
+          default: return (item as any)[property];
+        }
+      };
+      
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoading = false;
+    },
+    error: (err) => {
+      this.snackBar.open('Error al cargar la lista.', 'Cerrar', { duration: 3000 });
+      this.isLoading = false;
+    }
+  });
+}
 
   abrirFormulario(menu?: MenuDia): void {
     const dialogRef = this.dialog.open(MenuDiaFormComponent, {

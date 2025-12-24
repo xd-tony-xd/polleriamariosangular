@@ -59,16 +59,18 @@ export class AdminPanelComponent implements OnInit {
     }
     
     // Función de carga de datos sin valores estáticos (else)
-    loadUserData() {
-        const userData = this.authService.getUserData();
-        if (userData) {
-            // Asignar valores si existen datos de usuario
-            this.userName = userData.nombre.split(' ')[0]; 
-            this.userRole = userData.rol;
-            this.userEmail = userData.email; 
-        }
-        // Si userData es null, las propiedades se quedan con el valor inicial (vacío)
-    }
+   loadUserData() {
+  const userData = this.authService.getUserData();
+
+  this.userName =
+    userData?.nombre && userData.nombre.length > 0
+      ? userData.nombre.split(' ')[0]
+      : 'Usuario';
+
+  this.userRole = userData?.rol ?? '';
+  this.userEmail = userData?.email ?? '';
+}
+
     
     toggleSidebar() {
         this.isSidebarOpen = !this.isSidebarOpen;

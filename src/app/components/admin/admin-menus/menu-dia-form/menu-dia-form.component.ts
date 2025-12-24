@@ -1,4 +1,3 @@
-// src/app/admin/admin-menus/menu-dia-form/menu-dia-form.component.ts
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -22,164 +21,154 @@ import { MenuDiaService } from '../../../../services/menu-dia.service';
 import { HorarioService } from '../../../../services/horario.service';
 
 @Component({
-  selector: 'app-menu-dia-form',
-  standalone: true,
-  providers: [provideNativeDateAdapter()],
-  imports: [
-    CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
-    MatInputModule, MatButtonModule, MatIconModule, MatSnackBarModule, 
-    MatProgressSpinnerModule, MatSelectModule, MatCheckboxModule, MatDatepickerModule
-  ],
-  templateUrl: './menu-dia-form.component.html',
-  styleUrls: ['./menu-dia-form.component.css']
+  selector: 'app-menu-dia-form',
+  standalone: true,
+  providers: [provideNativeDateAdapter()],
+  imports: [
+    CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
+    MatInputModule, MatButtonModule, MatIconModule, MatSnackBarModule, 
+    MatProgressSpinnerModule, MatSelectModule, MatCheckboxModule, MatDatepickerModule
+  ],
+  templateUrl: './menu-dia-form.component.html',
+  styleUrls: ['./menu-dia-form.component.css']
 })
 export class MenuDiaFormComponent implements OnInit {
-  menuForm: FormGroup;
-  isEditMode: boolean = false;
-  isSubmitting: boolean = false;
-  
-  horarios: Horario[] = [];
-  selectedFile: File | null = null;
-  currentImageUrl: string | null = null;
-  currentImageIsUrl: boolean = false; 
+  menuForm: FormGroup;
+  isEditMode: boolean = false;
+  isSubmitting: boolean = false;
+  
+  horarios: Horario[] = [];
+  selectedFile: File | null = null;
+  currentImageUrl: string | null = null;
+  currentImageIsUrl: boolean = false; 
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<MenuDiaFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { menu: MenuDia },
-    private menuDiaService: MenuDiaService,
-    private horarioService: HorarioService,
-    private snackBar: MatSnackBar
-  ) {
-    this.isEditMode = !!data.menu;
-    
-    this.menuForm = this.fb.group({
-      id: [data.menu?.id || null],
-      fecha: [data.menu?.fecha || new Date(), Validators.required],
-      idHorario: [data.menu?.horario?.id || '', Validators.required], 
-      titulo: [data.menu?.titulo || '', Validators.required],
-      descripcion: [data.menu?.descripcion || '', Validators.required],
-      precio: [data.menu?.precio || 0, [Validators.required, Validators.min(0.01)]],
-      disponible: [data.menu?.disponible ?? true],
-      imagenUrl: ['']
-    });
-    
-    if (this.isEditMode && data.menu?.imagen) {
-      this.currentImageUrl = data.menu.imagen;
-      this.currentImageIsUrl = data.menu.imagen.startsWith('http');
-      this.menuForm.get('imagenUrl')?.setValue(this.currentImageIsUrl ? data.menu.imagen : '');
-    }
-  }
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<MenuDiaFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { menu: MenuDia },
+    private menuDiaService: MenuDiaService,
+    private horarioService: HorarioService,
+    private snackBar: MatSnackBar
+  ) {
+    this.isEditMode = !!data.menu;
+    
+    // Al cargar la fecha, la ajustamos para que no retroceda un día
+    const fechaInicial = data.menu?.fecha ? this.ajustarFechaParaInput(data.menu.fecha) : new Date();
 
-  ngOnInit(): void {
-    this.cargarHorarios();
-  }
-  
-  cargarHorarios(): void {
-    this.horarioService.listar().subscribe({
-      next: (data) => this.horarios = data,
-      error: (err: HttpErrorResponse) => {
-        console.error('Error al cargar horarios:', err);
-        this.snackBar.open('Error al cargar la lista de horarios disponibles.', 'Cerrar', { duration: 3000 });
-      }
-    });
-  }
+    this.menuForm = this.fb.group({
+      id: [data.menu?.id || null],
+      fecha: [fechaInicial, Validators.required],
+      idHorario: [data.menu?.horario?.id || '', Validators.required], 
+      titulo: [data.menu?.titulo || '', Validators.required],
+      descripcion: [data.menu?.descripcion || '', Validators.required],
+      precio: [data.menu?.precio || 0, [Validators.required, Validators.min(0.01)]],
+      disponible: [data.menu?.disponible ?? true],
+      imagenUrl: ['']
+    });
+    
+    if (this.isEditMode && data.menu?.imagen) {
+      this.currentImageUrl = data.menu.imagen;
+      this.currentImageIsUrl = data.menu.imagen.startsWith('http');
+      this.menuForm.get('imagenUrl')?.setValue(this.currentImageIsUrl ? data.menu.imagen : '');
+    }
+  }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.menuForm.get('imagenUrl')?.setValue('');
-      this.currentImageIsUrl = false;
-      
-      const reader = new FileReader();
-      reader.onload = () => this.currentImageUrl = reader.result as string;
-      reader.readAsDataURL(this.selectedFile);
-    }
-  }
-  
-  clearImage(): void {
-    this.selectedFile = null;
-    this.currentImageUrl = null;
-    this.currentImageIsUrl = false;
-    this.menuForm.get('imagenUrl')?.setValue('');
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement; 
-    if (fileInput) fileInput.value = '';
-  }
+  ngOnInit(): void {
+    this.cargarHorarios();
+  }
 
-  onUrlInput(event: Event): void {
-    const url = (event.target as HTMLInputElement).value;
-    this.currentImageUrl = url;
-    this.currentImageIsUrl = url.startsWith('http');
-    
-    if (url) {
-      this.selectedFile = null;
-      const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-    }
-  }
+  // Método para evitar el desfase al cargar fecha del backend
+  private ajustarFechaParaInput(fecha: any): Date {
+    const d = new Date(fecha);
+    d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+    return d;
+  }
+  
+  cargarHorarios(): void {
+    this.horarioService.listar().subscribe({
+      next: (data) => this.horarios = data,
+      error: (err: HttpErrorResponse) => {
+        this.snackBar.open('Error al cargar horarios.', 'Cerrar', { duration: 3000 });
+      }
+    });
+  }
 
-  onCancel(): void {
-    this.dialogRef.close();
-  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.menuForm.get('imagenUrl')?.setValue('');
+      this.currentImageIsUrl = false;
+      const reader = new FileReader();
+      reader.onload = () => this.currentImageUrl = reader.result as string;
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  
+  clearImage(): void {
+    this.selectedFile = null;
+    this.currentImageUrl = null;
+    this.currentImageIsUrl = false;
+    this.menuForm.get('imagenUrl')?.setValue('');
+  }
 
-  onSubmit(): void {
-    if (this.menuForm.invalid) {
-      this.snackBar.open('Por favor, revise los campos requeridos.', 'Cerrar', { duration: 3000 });
-      return;
-    }
-    
-    const formValue = this.menuForm.value;
-    
-    // 🚨 CÓDIGO CRÍTICO CORREGIDO: Construcción del JSON 'data'
-    const menuData: any = {
-      id: formValue.id || null, 
-      titulo: formValue.titulo,
-      descripcion: formValue.descripcion,
-      precio: formValue.precio,
-      disponible: formValue.disponible,
-      
-      // Usa 'imagen' para la URL si es externa (o la que se mantiene en edición)
-      imagen: formValue.imagenUrl || (this.currentImageIsUrl ? this.currentImageUrl : null), 
-      
-      // Enviar el Horario como objeto anidado para el backend
-      horario: { id: formValue.idHorario } 
-    };
+  onUrlInput(event: Event): void {
+    const url = (event.target as HTMLInputElement).value;
+    this.currentImageUrl = url;
+    this.currentImageIsUrl = url.startsWith('http');
+  }
 
-    // Formato de fecha para el backend (YYYY-MM-DD)
-    const fecha = formValue.fecha instanceof Date ? formValue.fecha : new Date(formValue.fecha);
-    menuData.fecha = fecha.toISOString().split('T')[0];
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 
-    // 1. Construir FormData
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(menuData)); 
-    
-    // 2. Manejo del Archivo
-    if (this.selectedFile) {
-      formData.append('imagen', this.selectedFile, this.selectedFile.name); 
-    }
-    
-    this.isSubmitting = true;
-    
-    let obs: Observable<MenuDia>;
+  onSubmit(): void {
+    if (this.menuForm.invalid) {
+      this.snackBar.open('Revise los campos requeridos.', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    
+    const formValue = this.menuForm.value;
+    
+    // Construcción manual de la fecha YYYY-MM-DD para evitar ISOString UTC
+    const f = new Date(formValue.fecha);
+    const anio = f.getFullYear();
+    const mes = (f.getMonth() + 1).toString().padStart(2, '0');
+    const dia = f.getDate().toString().padStart(2, '0');
+    const fechaFinalString = `${anio}-${mes}-${dia}`;
 
-    if (this.isEditMode && formValue.id) {
-      obs = this.menuDiaService.editarFormData(formValue.id, formData);
-    } else {
-      obs = this.menuDiaService.guardarFormData(formData);
-    }
+    const menuData: any = {
+      id: formValue.id || null, 
+      titulo: formValue.titulo,
+      descripcion: formValue.descripcion,
+      precio: formValue.precio,
+      disponible: formValue.disponible,
+      fecha: fechaFinalString, // ✅ Enviamos la fecha exacta sin desfase
+      imagen: formValue.imagenUrl || (this.currentImageIsUrl ? this.currentImageUrl : null), 
+      horario: { id: formValue.idHorario } 
+    };
 
-    obs.subscribe({
-      next: () => {
-        this.snackBar.open(`Menú ${this.isEditMode ? 'actualizado' : 'creado'} con éxito.`, 'Cerrar', { duration: 2500, panelClass: ['success-snackbar'] });
-        this.dialogRef.close(true);
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error('Error al guardar Menú:', err);
-        const errorMessage = err.status === 403 ? 'Permiso denegado. No tiene rol de ADMIN.' : err.error?.message || 'No se pudo guardar el menú';
-        this.snackBar.open(`Error: ${errorMessage}`, 'Cerrar', { duration: 4000, panelClass: ['error-snackbar'] });
-        this.isSubmitting = false;
-      }
-    });
-  }
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(menuData)); 
+    
+    if (this.selectedFile) {
+      formData.append('imagen', this.selectedFile, this.selectedFile.name); 
+    }
+    
+    this.isSubmitting = true;
+    let obs: Observable<MenuDia> = this.isEditMode && formValue.id 
+      ? this.menuDiaService.editarFormData(formValue.id, formData)
+      : this.menuDiaService.guardarFormData(formData);
+
+    obs.subscribe({
+      next: () => {
+        this.snackBar.open(`Éxito al ${this.isEditMode ? 'actualizar' : 'crear'}.`, 'Cerrar', { duration: 2500 });
+        this.dialogRef.close(true);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.snackBar.open('Error al guardar.', 'Cerrar', { duration: 4000 });
+        this.isSubmitting = false;
+      }
+    });
+  }
 }
